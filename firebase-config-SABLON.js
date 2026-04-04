@@ -25,9 +25,9 @@ var firebaseConfig = {
     databaseURL: "https://ramadan-seftali-default-rtdb.firebaseio.com",
     projectId: "ramadan-seftali",
     storageBucket: "ramadan-seftali.appspot.com",
-    messagingSenderId: "SENDER-ID",
-    appId: "APP-ID",
-    measurementId: "G-XXXXXX"
+    messagingSenderId: "",
+    appId: "",
+    measurementId: ""
 };
 
 // Firebase değişkenleri

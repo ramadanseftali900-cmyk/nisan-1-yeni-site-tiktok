@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Ürün Sayfası 2</title>
+<title id="pageTitle">Ürün Sayfası 2</title>
+<meta name="description" content="Ürün açıklaması yükleniyor..." id="pageDescription">
 
 <!-- PRELOAD - İLK GÖRSELI SAYFA YÜKLENMEDEN ÖNCE BAŞLAT -->
 <link rel="preload" as="image" href="" id="preloadImage1" fetchpriority="highest">
@@ -1877,40 +1878,21 @@ function updateCustomerDropdowns(aktifRenkler, aktifBedenler) {
         // Ayakkabı Bedenleri - değişmez
         '35': '35', '36': '36', '37': '37', '38': '38', '39': '39', '40': '40',
         '41': '41', '42': '42', '43': '43', '44': '44', '45': '45', '46': '46',
-        // Giyim Bedenleri - değişmez
+        // Giyim Bedenleri - güncellendi
         'xs-dar': 'XS (Dar Kalıp)', 's-kucuk': 'S (Küçük)', 'm-orta': 'M (Orta)',
         'l-buyuk': 'L (Büyük)', 'xl-cok': 'XL (Çok Büyük)', 'xxl-ekstra': 'XXL (Ekstra Büyük)',
+        'XS': 'XS (Yetişkin)', 'S': 'S (Yetişkin)', 'M': 'M (Yetişkin)', 'L': 'L (Yetişkin)', 'XL': 'XL (Yetişkin)', 'XXL': 'XXL (Yetişkin)',
         // Bebek Bedenleri - değişmez
         '0-3ay': '0–3 Ay', '3-6ay': '3–6 Ay', '6-9ay': '6–9 Ay',
         '9-12ay': '9–12 Ay', '12-18ay': '12–18 Ay', '18-24ay': '18–24 Ay',
         // Çocuk Bedenleri - güncellendi
         '2-3yas': '2–3 Yaş', '3-4yas': '3–4 Yaş', '4-5yas': '4–5 Yaş',
-        'cocuk-xs': 'XS (5–7 Yaş)', 'cocuk-s': 'S (7–10 Yaş)', 'cocuk-m': 'M (11–13 Yaş)',
-        'cocuk-l': 'L (14–16 Yaş)', 'cocuk-xl': 'XL (17+ Yaş)',
+        'cocuk-xs': 'XS (5–7 Yaş)', 'cocuk-s': 'S (7–10 Yaş)', 'cocuk-m': 'M (10–12 Yaş)',
+        'cocuk-l': 'L (12–14 Yaş)', 'cocuk-xl': 'XL (14–16 Yaş)',
         // Kadın Bedenleri - güncellendi
         'k-34': '(XS)', 'k-36': '(S)', 'k-38': '(M)', 'k-40': '(L)', 'k-42': '(XL)', 'k-44': '(XXL)',
         // Erkek Bedenleri - güncellendi
-        'e-46': '(S)', 'e-48': '(M)', 'e-50': '(L)', 'e-52': '(XL)', 'e-54': '(XXL)', 'e-56': '(3XL)'
-    };
-    
-    var bedenIsimleri = {
-        // Ayakkabı Bedenleri - değişmez
-        '35': '35', '36': '36', '37': '37', '38': '38', '39': '39', '40': '40',
-        '41': '41', '42': '42', '43': '43', '44': '44', '45': '45', '46': '46',
-        // Giyim Bedenleri - değişmez
-        'xs-dar': 'XS (Dar Kalıp)', 's-kucuk': 'S (Küçük)', 'm-orta': 'M (Orta)',
-        'l-buyuk': 'L (Büyük)', 'xl-cok': 'XL (Çok Büyük)', 'xxl-ekstra': 'XXL (Ekstra Büyük)',
-        // Bebek Bedenleri - değişmez
-        '0-3ay': '0–3 Ay', '3-6ay': '3–6 Ay', '6-9ay': '6–9 Ay',
-        '9-12ay': '9–12 Ay', '12-18ay': '12–18 Ay', '18-24ay': '18–24 Ay',
-        // Çocuk Bedenleri - güncellendi
-        '2-3yas': '2–3 Yaş', '3-4yas': '3–4 Yaş', '4-5yas': '4–5 Yaş',
-        'cocuk-xs': 'XS (5–7 Yaş)', 'cocuk-s': 'S (7–10 Yaş)', 'cocuk-m': 'M (11–13 Yaş)',
-        'cocuk-l': 'L (14–16 Yaş)', 'cocuk-xl': 'XL (17+ Yaş)',
-        // Kadın Bedenleri - güncellendi
-        'k-34': '(XS)', 'k-36': '(S)', 'k-38': '(M)', 'k-40': '(L)', 'k-42': '(XL)', 'k-44': '(XXL)',
-        // Erkek Bedenleri - güncellendi
-        'e-46': '(S)', 'e-48': '(M)', 'e-50': '(L)', 'e-52': '(XL)', 'e-54': '(XXL)', 'e-56': '(3XL)'
+        'e-46': '(S)', 'e-48': '(M)', 'e-50': '(L)', 'e-52': '(XL)', 'e-54': '(XXL)', 'e-56': '(XXXL)'
     };
     
     // Renk dropdown'larını güncelle - sadece admin'den eklenen renkler gösterilsin
@@ -2301,6 +2283,19 @@ function yukleUrunBilgileriCustomer() {
             if (urunAdi) {
                 localStorage.setItem(getAdminKey('genel_urun_adi'), urunAdi);
                 console.log('✅ Genel ürün adı Firebase\'den yüklendi: ' + urunAdi);
+                
+                // DİNAMİK BAŞLIK GÜNCELLEMESİ
+                document.title = urunAdi + ' | Hızlı Kargo - kargonburada.online';
+                document.getElementById('pageTitle').textContent = urunAdi + ' | Hızlı Kargo - kargonburada.online';
+            }
+        });
+        
+        // SEO açıklamasını da Firebase'den çek
+        database.ref(SITE_ID + '/urunAyarlari/urun2/seo_aciklamasi').once('value', function(snapshot) {
+            var seoAciklama = snapshot.val();
+            if (seoAciklama) {
+                document.querySelector('meta[name="description"]').setAttribute('content', seoAciklama);
+                document.getElementById('pageDescription').setAttribute('content', seoAciklama);
             }
         });
     } else if (typeof onFirebaseReady === 'function') {

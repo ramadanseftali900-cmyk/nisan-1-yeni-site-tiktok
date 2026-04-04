@@ -1,12 +1,43 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Ürün Sayfası 1</title>
+<title id="pageTitle">Ürün Sayfası 1</title>
+<meta name="description" content="Ürün açıklaması yükleniyor..." id="pageDescription">
 
 <!-- PRELOAD - İLK GÖRSELI SAYFA YÜKLENMEDEN ÖNCE BAŞLAT -->
 <link rel="preload" as="image" href="" id="preloadImage1" fetchpriority="highest">
+
+<!-- DİNAMİK SEO - SAYFA YÜKLENMEDEN ÖNCE -->
+<script>
+// Site ID için yardımcı fonksiyon
+function getAdminKey(key) {
+    var SITE_ID = 'www_kargonburada_online';
+    localStorage.setItem('__SITE_ID__', SITE_ID);
+    return SITE_ID + '_admin1_' + key;
+}
+
+// SEO'yu hemen güncelle (Google bot için)
+(function() {
+    // Firebase'den hızlıca çek
+    var urunAdi = localStorage.getItem(getAdminKey('genel_urun_adi')) || 'Ürün';
+    var seoAciklama = localStorage.getItem(getAdminKey('seo_aciklamasi')) || 'Ürün açıklaması';
+    
+    // Title'ı hemen değiştir
+    if (urunAdi && urunAdi !== 'Ürün') {
+        document.title = urunAdi + ' - Hızlı Kargo | kargonburada.online';
+    }
+    
+    // Meta description'ı hemen değiştir
+    setTimeout(function() {
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc && seoAciklama && seoAciklama !== 'Ürün açıklaması') {
+            metaDesc.content = seoAciklama;
+        }
+    }, 100);
+})();
+</script>
 
 <!-- Pixel Loader -->
 <script src="pixel-loader.js"></script>
@@ -2282,6 +2313,19 @@ function yukleUrunBilgileriCustomer() {
             if (urunAdi) {
                 localStorage.setItem(getAdminKey('genel_urun_adi'), urunAdi);
                 console.log('✅ Genel ürün adı Firebase\'den yüklendi: ' + urunAdi);
+                
+                // DİNAMİK BAŞLIK GÜNCELLEMESİ
+                document.title = urunAdi + ' | Hızlı Kargo - kargonburada.online';
+                document.getElementById('pageTitle').textContent = urunAdi + ' | Hızlı Kargo - kargonburada.online';
+            }
+        });
+        
+        // SEO açıklamasını da Firebase'den çek
+        database.ref(SITE_ID + '/urunAyarlari/urun1/seo_aciklamasi').once('value', function(snapshot) {
+            var seoAciklama = snapshot.val();
+            if (seoAciklama) {
+                document.querySelector('meta[name="description"]').setAttribute('content', seoAciklama);
+                document.getElementById('pageDescription').setAttribute('content', seoAciklama);
             }
         });
     } else if (typeof onFirebaseReady === 'function') {

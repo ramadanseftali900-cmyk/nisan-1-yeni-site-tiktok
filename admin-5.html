@@ -135,6 +135,13 @@ var SITE_ID = 'www_kargonburada_online';
   <div style="font-size:12px;color:#666;margin-top:5px;">Bu alan müşteri sayfasında görünmez, sadece kendi notunuz için.</div>
 </div>
 
+<!-- SEO AÇIKLAMASI -->
+<div style="margin-bottom:25px;">
+  <label style="display:block;font-weight:700;margin-bottom:8px;color:#333;font-size:14px;">SEO Açıklaması:</label>
+  <textarea id="seoAciklamasi" placeholder="Google'da görünecek açıklamayı buraya yazın..." style="width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:14px;background:#fff;color:#333;font-weight:600;box-sizing:border-box;min-height:80px;resize:vertical;" onchange="saveSeoAciklamasi()" onkeyup="saveSeoAciklamasi()"></textarea>
+  <div style="font-size:12px;color:#666;margin-top:5px;">Bu metin Google arama sonuçlarında görünecek. Ürün hakkında çekici bir açıklama yazın.</div>
+</div>
+
 
 
 <button onclick="openRenkModal()" style="width:100%;background:#000;color:#fff;border:none;padding:15px;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;margin-bottom:10px;">
@@ -2036,6 +2043,25 @@ var bedenListesi = [
     'e-46', 'e-48', 'e-50', 'e-52', 'e-54', 'e-56'
 ];
 
+var bedenIsimleri = {
+    // Ayakkabı Bedenleri - değişmez
+    '35': '35', '36': '36', '37': '37', '38': '38', '39': '39', '40': '40',
+    '41': '41', '42': '42', '43': '43', '44': '44', '45': '45', '46': '46',
+    // Giyim Bedenleri - güncellendi
+    'XS': 'XS (Yetişkin)', 'S': 'S (Yetişkin)', 'M': 'M (Yetişkin)', 'L': 'L (Yetişkin)', 'XL': 'XL (Yetişkin)', 'XXL': 'XXL (Yetişkin)',
+    // Bebek Bedenleri - değişmez
+    '0-3ay': '0–3 Ay', '3-6ay': '3–6 Ay', '6-9ay': '6–9 Ay',
+    '9-12ay': '9–12 Ay', '12-18ay': '12–18 Ay', '18-24ay': '18–24 Ay',
+    // Çocuk Bedenleri - güncellendi
+    '2-3yas': '2–3 Yaş', '3-4yas': '3–4 Yaş', '4-5yas': '4–5 Yaş',
+    'cocuk-xs': 'XS (5–7 Yaş)', 'cocuk-s': 'S (7–10 Yaş)', 'cocuk-m': 'M (10–12 Yaş)',
+    'cocuk-l': 'L (12–14 Yaş)', 'cocuk-xl': 'XL (14–16 Yaş)',
+    // Kadın Bedenleri - güncellendi
+    'k-34': '(XS)', 'k-36': '(S)', 'k-38': '(M)', 'k-40': '(L)', 'k-42': '(XL)', 'k-44': '(XXL)',
+    // Erkek Bedenleri - güncellendi
+    'e-46': '(S)', 'e-48': '(M)', 'e-50': '(L)', 'e-52': '(XL)', 'e-54': '(XXL)', 'e-56': '(XXXL)'
+};
+
 var renkIsimleri = {
     'siyah': '⚫ Siyah',
     'beyaz': '⚪ Beyaz', 
@@ -2221,27 +2247,6 @@ function updateRenkDropdown(selectElement) {
 
 function updateBedenDropdown(selectElement) {
     var aktifBedenler = [];
-    
-    var bedenIsimleri = {
-        // Ayakkabı Bedenleri - değişmez
-        '35': '35', '36': '36', '37': '37', '38': '38', '39': '39', '40': '40',
-        '41': '41', '42': '42', '43': '43', '44': '44', '45': '45', '46': '46',
-        // Giyim Bedenleri - güncellendi
-        'xs-dar': 'XS (Dar Kalıp)', 's-kucuk': 'S (Küçük)', 'm-orta': 'M (Orta)',
-        'l-buyuk': 'L (Büyük)', 'xl-cok': 'XL (Çok Büyük)', 'xxl-ekstra': 'XXL (Ekstra Büyük)',
-        'XS': 'XS (Yetişkin)', 'S': 'S (Yetişkin)', 'M': 'M (Yetişkin)', 'L': 'L (Yetişkin)', 'XL': 'XL (Yetişkin)', 'XXL': 'XXL (Yetişkin)',
-        // Bebek Bedenleri - değişmez
-        '0-3ay': '0–3 Ay', '3-6ay': '3–6 Ay', '6-9ay': '6–9 Ay',
-        '9-12ay': '9–12 Ay', '12-18ay': '12–18 Ay', '18-24ay': '18–24 Ay',
-        // Çocuk Bedenleri - güncellendi
-        '2-3yas': '2–3 Yaş', '3-4yas': '3–4 Yaş', '4-5yas': '4–5 Yaş',
-        'cocuk-xs': 'XS (5–7 Yaş)', 'cocuk-s': 'S (7–10 Yaş)', 'cocuk-m': 'M (10–12 Yaş)',
-        'cocuk-l': 'L (12–14 Yaş)', 'cocuk-xl': 'XL (14–16 Yaş)',
-        // Kadın Bedenleri - güncellendi
-        'k-34': '(XS)', 'k-36': '(S)', 'k-38': '(M)', 'k-40': '(L)', 'k-42': '(XL)', 'k-44': '(XXL)',
-        // Erkek Bedenleri - güncellendi
-        'e-46': '(S)', 'e-48': '(M)', 'e-50': '(L)', 'e-52': '(XL)', 'e-54': '(XXL)', 'e-56': '(XXXL)'
-    };
     
     bedenListesi.forEach(function(beden) {
         if (localStorage.getItem(getAdminKey('beden_' + beden)) === 'eklendi') {
@@ -2435,11 +2440,11 @@ function createOptionsDiv(id) {
                                         <option value="2-3yas">2-3 Yaş</option>
                                         <option value="3-4yas">3-4 Yaş</option>
                                         <option value="4-5yas">4-5 Yaş</option>
-                                        <option value="cocuk-xs">Çocuk XS</option>
-                                        <option value="cocuk-s">Çocuk S</option>
-                                        <option value="cocuk-m">Çocuk M</option>
-                                        <option value="cocuk-l">Çocuk L</option>
-                                        <option value="cocuk-xl">Çocuk XL</option>
+                                        <option value="cocuk-xs">XS (5–7 Yaş)</option>
+                                        <option value="cocuk-s">S (7–10 Yaş)</option>
+                                        <option value="cocuk-m">M (11–13 Yaş)</option>
+                                        <option value="cocuk-l">L (14–16 Yaş)</option>
+                                        <option value="cocuk-xl">XL (17+ Yaş)</option>
                                     </optgroup>
                                     <optgroup label="� Ayakkabı Numaraları">
                                         <option value="35">35</option>
@@ -2464,20 +2469,20 @@ function createOptionsDiv(id) {
                                         <option value="XXL">XXL</option>
                                     </optgroup>
                                     <optgroup label="👩 Kadın Bedenleri">
-                                        <option value="k-34">K-34</option>
-                                        <option value="k-36">K-36</option>
-                                        <option value="k-38">K-38</option>
-                                        <option value="k-40">K-40</option>
-                                        <option value="k-42">K-42</option>
-                                        <option value="k-44">K-44</option>
+                                        <option value="k-34">(XS)</option>
+                                        <option value="k-36">(S)</option>
+                                        <option value="k-38">(M)</option>
+                                        <option value="k-40">(L)</option>
+                                        <option value="k-42">(XL)</option>
+                                        <option value="k-44">(XXL)</option>
                                     </optgroup>
                                     <optgroup label="👨 Erkek Bedenleri">
-                                        <option value="e-46">E-46</option>
-                                        <option value="e-48">E-48</option>
-                                        <option value="e-50">E-50</option>
-                                        <option value="e-52">E-52</option>
-                                        <option value="e-54">E-54</option>
-                                        <option value="e-56">E-56</option>
+                                        <option value="e-46">(S)</option>
+                                        <option value="e-48">(M)</option>
+                                        <option value="e-50">(L)</option>
+                                        <option value="e-52">(XL)</option>
+                                        <option value="e-54">(XXL)</option>
+                                        <option value="e-56">(3XL)</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -2863,6 +2868,7 @@ function loadAdminRenkBedenDropdowns() {
 window.addEventListener('DOMContentLoaded', function() {
     setTimeout(loadUrunDurumlari, 100);
     loadGenelUrunAdi(); // Genel ürün adını yükle
+    loadSeoAciklamasi(); // SEO açıklamasını yükle
 });
 
 // GENEL ÜRÜN ADI FONKSİYONLARI
@@ -2883,6 +2889,27 @@ function loadGenelUrunAdi() {
     if (input) {
         input.value = savedUrunAdi;
         console.log('📋 Genel ürün adı yüklendi: ' + savedUrunAdi);
+    }
+}
+
+// SEO AÇIKLAMASI FONKSİYONLARI
+function saveSeoAciklamasi() {
+    var seoAciklama = document.getElementById('seoAciklamasi').value;
+    localStorage.setItem(getAdminKey('seo_aciklamasi'), seoAciklama);
+    console.log('💾 SEO açıklaması kaydedildi: ' + seoAciklama);
+    
+    // Firebase'e de kaydet
+    if (typeof database !== 'undefined' && database) {
+        database.ref(SITE_ID + '/urunAyarlari/urun5/seo_aciklamasi').set(seoAciklama);
+    }
+}
+
+function loadSeoAciklamasi() {
+    var savedSeoAciklama = localStorage.getItem(getAdminKey('seo_aciklamasi')) || '';
+    var textarea = document.getElementById('seoAciklamasi');
+    if (textarea) {
+        textarea.value = savedSeoAciklama;
+        console.log('📋 SEO açıklaması yüklendi: ' + savedSeoAciklama);
     }
 }
 
